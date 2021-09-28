@@ -79,7 +79,6 @@
   import Swal from 'sweetalert2'
   export default {
     data:()=>({
-      idSetting : '',
       datosAlmacen:{
         nameStore:'',
         nit:'',
@@ -126,7 +125,6 @@
             .then(response =>{
               console.log(response.data);
               this.datosAlmacen = response.data.configuraciones
-              this.idSetting = response.data.configuraciones._id
             })
             .catch((error) =>{
               console.log(error.response);
@@ -134,22 +132,26 @@
                 this.msgError = error.response.data.errors[0].msg;
                 this.msjcompra(this.msgError);
               }else{
-                this.msgError =error.response.data.msg;
-                this.msjcompra(this.msgError);
+                if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
+                    console.log(error.response.data.msg);
+                    this.msjAlerta(this.msgError);
+                  }
               }
             })
         },
 
         //actualzar nombre del almacen
         actualizarNameStore(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.nameStore.trim()===''){
              this.msjcompra('Nombre obligatorio');
            }else if(this.datosAlmacen.nameStore.legend>100){
              this.msjcompra('Nombre mayor a 100 carácteres');
            }else{
-              axios.put(`setting/nameStore/${this.idSetting}`,{ nameStore:this.datosAlmacen.nameStore}, header )
+              axios.put(`setting/nameStore`,{ nameStore:this.datosAlmacen.nameStore}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -163,9 +165,14 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
+                  
                 }  
               })
            }
@@ -173,14 +180,13 @@
 
         //actualzar nit del almacen
         actualizarNit(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.nit.trim()===''){
              this.msjcompra('Nit obligatorio');
            }else if(this.datosAlmacen.nit.legend>100){
              this.msjcompra('Nit mayor a 100 carácteres');
            }else{
-              axios.put(`setting/nit/${this.idSetting}`,{ nit:this.datosAlmacen.nit}, header )
+              axios.put(`setting/nit`,{ nit:this.datosAlmacen.nit}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -194,9 +200,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -204,14 +214,13 @@
 
         //actualzar regimen del almacen
         actualizarRegimen(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.regimen.trim()===''){
              this.msjcompra('Regimen obligatorio');
            }else if(this.datosAlmacen.regimen.legend>100){
              this.msjcompra('Regimen mayor a 100 carácteres');
            }else{
-              axios.put(`setting/regimen/${this.idSetting}`,{ regimen:this.datosAlmacen.regimen}, header )
+              axios.put(`setting/regimen`,{ regimen:this.datosAlmacen.regimen}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -225,9 +234,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -235,14 +248,13 @@
 
         //actualzar representante del almacen
         actualizarRepresenante(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.representanteCC.trim()===''){
              this.msjcompra('Representante obligatorio');
            }else if(this.datosAlmacen.representanteCC.legend>100){
              this.msjcompra('Representante mayor a 100 carácteres');
            }else{
-              axios.put(`setting/representanteCC/${this.idSetting}`,{ representanteCC:this.datosAlmacen.representanteCC}, header )
+              axios.put(`setting/representanteCC`,{ representanteCC:this.datosAlmacen.representanteCC}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -256,9 +268,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -266,14 +282,13 @@
 
         //actualzar departameno del almacen
         actualizarDepartamento(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.departamento.trim()===''){
              this.msjcompra('Departamento obligatorio');
            }else if(this.datosAlmacen.departamento.legend>100){
              this.msjcompra('Departamento mayor a 100 carácteres');
            }else{
-              axios.put(`setting/departamento/${this.idSetting}`,{ departamento:this.datosAlmacen.departamento}, header )
+              axios.put(`setting/departamento`,{ departamento:this.datosAlmacen.departamento}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -287,9 +302,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -297,14 +316,13 @@
 
         //actualzar ciudad del almacen
         actualizarCiudad(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.ciudad.trim()===''){
              this.msjcompra('Ciudad obligatorio');
            }else if(this.datosAlmacen.ciudad.legend>100){
              this.msjcompra('Ciudad mayor a 100 carácteres');
            }else{
-              axios.put(`setting/ciudad/${this.idSetting}`,{ ciudad:this.datosAlmacen.ciudad}, header )
+              axios.put(`setting/ciudad`,{ ciudad:this.datosAlmacen.ciudad}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -318,9 +336,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -328,14 +350,13 @@
 
         //actualzar direccion del almacen
         actualizarDireccion(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.direccion.trim()===''){
              this.msjcompra('Direccion obligatorio');
            }else if(this.datosAlmacen.direccion.legend>100){
              this.msjcompra('Direccion mayor a 100 carácteres');
            }else{
-              axios.put(`setting/direccion/${this.idSetting}`,{ direccion:this.datosAlmacen.direccion}, header )
+              axios.put(`setting/direccion`,{ direccion:this.datosAlmacen.direccion}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -349,9 +370,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -359,14 +384,13 @@
 
         //actualzar celular del almacen
         actualizarCelular(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.celular.trim()===''){
              this.msjcompra('Celular obligatorio');
            }else if(this.datosAlmacen.celular.legend>100){
              this.msjcompra('Celular mayor a 100 carácteres');
            }else{
-              axios.put(`setting/celular/${this.idSetting}`,{ celular:this.datosAlmacen.celular}, header )
+              axios.put(`setting/celular`,{ celular:this.datosAlmacen.celular}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -380,9 +404,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -390,14 +418,13 @@
 
         //actualzar telefono del almacen
         actualizarTelefono(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.telefono.trim()===''){
              this.msjcompra('Telefono obligatorio');
            }else if(this.datosAlmacen.telefono.legend>100){
              this.msjcompra('Telefono mayor a 100 carácteres');
            }else{
-              axios.put(`setting/telefono/${this.idSetting}`,{ telefono:this.datosAlmacen.telefono}, header )
+              axios.put(`setting/telefono`,{ telefono:this.datosAlmacen.telefono}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -411,9 +438,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }
@@ -421,14 +452,13 @@
 
         //actualzar email del almacen
         actualizarEmail(){
-          console.log(this.idSetting);
            let header = {headers:{"token" : this.$store.state.token}};
            if(this.datosAlmacen.email.trim()===''){
              this.msjcompra('Email obligatorio');
            }else if(this.datosAlmacen.email.legend>100){
              this.msjcompra('Email mayor a 100 carácteres');
            }else{
-              axios.put(`setting/email/${this.idSetting}`,{ email:this.datosAlmacen.email}, header )
+              axios.put(`setting/email`,{ email:this.datosAlmacen.email}, header )
               .then((response)=>{
                 console.log(response);
                 this.msgError=response.data.msg;
@@ -442,9 +472,13 @@
                   this.msgError = error.response.data.errors[0].msg
                   this.msjAlerta(this.msgError);
                 }else{
-                  this.msgError = error.response.data.msg
+                  if(error.response.data.msg==false){
+                    this.msjAlerta('Configuracion basica no creada');
+                  }else{
+                    this.msgError = error.response.data.msg
                   console.log(error.response.data.msg);
                   this.msjAlerta(this.msgError);
+                  }
                 }  
               })
            }

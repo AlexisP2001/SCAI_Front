@@ -3,17 +3,19 @@
   <v-app>
     <v-container fluid>
       <template>
-        <v-row style="margin-left:10px">
-          <v-text-field  v-model="buscarClienteLetras"
-            label="Traer proveedores por tipo y numero de documento, nombre, dirección, ciudad, telefono o email. (Ejemplo:proveedor1)" 
-            v-on:keyup.enter="obtenerPersonas()">
-          </v-text-field>
-          <v-btn style="margin-right:10px; margin-left:50px;  margin-top:10px"   icon color="#72128E"  @click="obtenerPersonas()"><v-icon size="40">mdi-card-search-outline</v-icon> </v-btn>
-        </v-row>
+        <v-card style="margin-top:20px;box-shadow: 0 0 20px #A068B8; border-radius: 40px">
+          <v-row style="margin-left:10px">
+            <v-text-field  v-model="buscarClienteLetras" 
+              label="Traer clientes por tipo y numero de documento, nombre, dirección, ciudad, telefono o email. (Ejemplo:cliente1)" 
+              v-on:keyup.enter="obtenerPersonas()">
+            </v-text-field>
+            <v-btn style="margin-right:30px; margin-left:20px;  margin-top:20px"   icon color="#72128E"  @click="obtenerPersonas()"><v-icon size="40">mdi-card-search-outline</v-icon> </v-btn>
+          </v-row>
+        </v-card>
       </template>
 
-      <template>
-        <v-data-table style="margin-top:50px" class=" elevation-15 " :headers="columnas" :items="personas" :search="search">
+      <template >
+        <v-data-table  style="margin-top:50px" class=" elevation-15 " :headers="columnas" :items="personas" :search="search">
           <template v-slot:top>
             <!--parte arriba tabla-->
             <v-toolbar flat  >
@@ -21,7 +23,7 @@
               
               <!--buscar-->
               <v-spacer></v-spacer>
-              <!--<v-text-field   v-model="search"  append-icon="mdi-magnify"  label="Buscar proveedor por documento, nombre, dirección, ciudad, telefono o email"  single-line hide-details></v-text-field>-->
+              <!--<v-text-field   v-model="search"  append-icon="mdi-magnify"  label="Buscar cliente por documento, nombre, dirección, ciudad, telefono o email"  single-line hide-details></v-text-field>-->
               <!--<v-divider  class="mx-4" inset  vertical ></v-divider>-->
               <v-spacer></v-spacer>
 
@@ -32,16 +34,16 @@
                 <!--formulario-->
 
                 <v-card >
-                <v-card-title><span class="text-h5">Proveedores</span></v-card-title>
+                <v-card-title><span class="text-h5">Proveedor</span></v-card-title>
                   <v-card-text>
                     <v-form>
-                      <v-text-field  v-model="editedItem.tipoDocumento"                :rules="rulesTipoDocumento" label="Tipo de Documento*"  required ></v-text-field>
-                      <v-text-field  v-model="editedItem.numDocumento"  :counter="30" :rules="rulesNumDocumento" label="Número de Documento*" required  ></v-text-field>
-                      <v-text-field  v-model="editedItem.nombre"        :counter="70" :rules="rulesNombre" label="Nombre*"  required ></v-text-field>
-                      <v-text-field  v-model="editedItem.direccion"     :counter="70" :rules="rulesDireccion"  label="Dirección"  ></v-text-field>
-                      <v-text-field  v-model="editedItem.ciudad"        :counter="70" :rules="rulesCiudad"  label="Ciudad"  ></v-text-field>
-                      <v-text-field  v-model="editedItem.telefono"      :counter="70" :rules="rulesTelefono"  label="Telefono"   ></v-text-field>
-                      <v-text-field  v-model="editedItem.email"         :counter="70" :rules="rulesEmail" label="Email"></v-text-field>
+                      <v-text-field  v-model="editedItem.tipoDocumento"               :rules="rulesTipoDocumento" label="Tipo de Documento*"  required ></v-text-field>
+                      <v-text-field  v-model="editedItem._id"  :counter="30" :rules="rules_id"  label="Número de Documento*" required  ></v-text-field>
+                      <v-text-field  v-model="editedItem.nombre"        :counter="70" :rules="rulesNombre"        label="Nombre*"  required ></v-text-field>
+                      <v-text-field  v-model="editedItem.direccion"     :counter="70" :rules="rulesDireccion"     label="Dirección"  ></v-text-field>
+                      <v-text-field  v-model="editedItem.ciudad"        :counter="70" :rules="rulesCiudad"        label="Ciudad"  ></v-text-field>
+                      <v-text-field  v-model="editedItem.telefono"      :counter="70" :rules="rulesTelefono"      label="Telefono"   ></v-text-field>
+                      <v-text-field  v-model="editedItem.email"         :counter="70" :rules="rulesEmail"         label="Email"></v-text-field>
 
                       <v-btn color="blue darken-1" text class="mr-4"  @click="guardar"  > Guardar </v-btn>
                       <v-btn color="blue darken-1" text class="mr-4"  @click="reset">  Limpiar </v-btn>
@@ -60,14 +62,17 @@
                 <v-card-title><span class="text-h5">Editar proveedor</span></v-card-title>
                   <v-card-text>
                     <v-form>
+
                       <v-row>
-                        <v-text-field  v-model="editedItem.tipoDocumento"  :rules="rulesTipoDocumento" label="Tipo de Documento"   ></v-text-field>
-                        <v-btn class="botones" style="margin-top:25px" icon color="#72128E" @click="actualizarTipodoc(editedItem.tipoDocumento)"><v-icon>mdi-reload</v-icon>  </v-btn>
+                        <label  class="col-form-label" style="color:#72128E;margin-top:40px;margin-bottom:40px;">
+                          <v-icon color="#72128E">mdi-card-bulleted</v-icon> 
+                          Numer de documento : {{editedItem._id}}
+                        </label>
                       </v-row>
 
                       <v-row>
-                        <v-text-field  v-model="editedItem.numDocumento" :counter="30" :rules="rulesNumDocumento" label="Número de Documento"   ></v-text-field>
-                        <v-btn class="botones" style="margin-top:25px" icon color="#72128E" @click="actualizarNumdoc(editedItem.numDocumento)"><v-icon>mdi-reload</v-icon>  </v-btn>
+                        <v-text-field  v-model="editedItem.tipoDocumento"  :rules="rulesTipoDocumento" label="Tipo de Documento"   ></v-text-field>
+                        <v-btn class="botones" style="margin-top:25px" icon color="#72128E" @click="actualizarTipodoc(editedItem.tipoDocumento)"><v-icon>mdi-reload</v-icon>  </v-btn>
                       </v-row>
 
                       <v-row>
@@ -104,28 +109,17 @@
             </v-toolbar>
           </template>
 
-          <!--estado-->
-          <template v-slot:[`item.estado`]="{ item }">
-            <div v-if="item.estado">
-              <span class="black--text">Activo</span>
-            </div>
-            <div v-else>
-              <span class="red--text">Inactivo</span>
-            </div>
+         
+          <template v-slot:[`item.actions`]="{ item }">
+            
+              <v-icon  small  class="mr-2"  @click="editar(item)" >  mdi-pencil </v-icon>
+              <v-icon  small  class="mr-2"  @click="eliminar(item)" >  mdi-delete </v-icon>
           </template>
 
-          <!--editar activar desactivar-->
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon  small  class="mr-2"  @click="editar(item)" >  mdi-pencil </v-icon>
-            <template v-if="item.estado">
-              <v-icon  small class="mr-2" @click="activarDesactivarItem(2,item)" > mdi-check </v-icon>
-            </template>
-            <template v-else>
-              <v-icon  small  @click="activarDesactivarItem(1,item)" >  mdi-block-helper </v-icon>
-            </template>
-          </template>
 
         </v-data-table>
+
+
       </template>
     </v-container>
   </v-app>
@@ -138,19 +132,18 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
   export default {
-    data: () => ({   
-      buscarClienteLetras:'', 
+    data: () => ({    
+      buscarClienteLetras:'',
       search: '',
       dialog: false,
       dialog2: false,
 
       rulesTipoDocumento: [
-        value=>!!value||'Requerido',
-        value => ( value == 'cc' || value == 'nit') || 'nit o cc' 
+        value=>!!value||'Requerido'
       ],
-      rulesNumDocumento: [
+      rules_id: [
         value=>!!value||'Requerido',
-        value => (value.length <= 30) || 'Max 30 caracteres' 
+        value => (value.length <= 70) || 'Max 70 caracteres' 
       ],
       rulesNombre: [
         value => !!value || 'Required.',
@@ -163,24 +156,21 @@ import Swal from 'sweetalert2'
       
       columnas: [
         { text: 'Tipo Doc', value: 'tipoDocumento' , class:'purple darken-3 white--text',width:'5%'},
-        { text: 'Número Doc', value: 'numDocumento', class:'purple darken-3 white--text' },
+        { text: 'Número Doc', value: '_id', class:'purple darken-3 white--text' },
         { text: 'Nombre', value: 'nombre', class:'purple darken-3 white--text' },
         { text: 'Dirección', value: 'direccion' , class:'purple darken-3 white--text'},
         { text: 'Ciudad', value: 'ciudad' , class:'purple darken-3 white--text'},
         { text: 'Telefono', value: 'telefono', class:'purple darken-3 white--text',width:'10%' ,sortable: false },
         { text: 'Email', value: 'email', class:'purple darken-3 white--text' },
-        { text: 'Estado', value: 'estado', class:'purple darken-3 white--text' },
         { text: 'Opciones', value: 'actions' , class:'purple darken-3 white--text',width:'10%',sortable: false }
       ],
-      personas: [
-      ],
+      personas: [],
       editedItem: {
-        tipoPersona:'', nombre:'', tipoDocumento:'', numDocumento:'',
-        direccion:'', estado:'', telefono:'',  email:''
+        tipoPersona:'', nombre:'', tipoDocumento:'', _id:'',
+        direccion:'', telefono:'',  email:''
       }
     }),//data
-    created(){
-    },
+    
     methods: {
       //msg alerta
       msjcompra:function(tata){
@@ -210,6 +200,9 @@ import Swal from 'sweetalert2'
           .then(response =>{
             console.log(response.data);
             this.personas = response.data.persona
+            if(this.personas.length==0){
+              this.msjAlertaBien('No hay proveedores');
+            }
           })
           .catch((error) =>{
             console.log(error.response);
@@ -225,10 +218,9 @@ import Swal from 'sweetalert2'
 
       //limpiar formulario
       reset(){
-        this.editedItem.tipoPersona=''
         this.editedItem.tipoDocumento=''
+        this.editedItem._id=''
         this.editedItem.nombre=''
-        this.editedItem.numDocumento=''
         this.editedItem.direccion=''
         this.editedItem.ciudad=''
         this.editedItem.telefono=''
@@ -240,7 +232,7 @@ import Swal from 'sweetalert2'
         console.log(item);
         this.id= item._id;
         this.editedItem.tipoDocumento=item.tipoDocumento
-        this.editedItem.numDocumento=item.numDocumento
+        this.editedItem._id=item._id
         this.editedItem.nombre=item.nombre
         this.editedItem.direccion=item.direccion
         this.editedItem.ciudad=item.ciudad
@@ -255,21 +247,18 @@ import Swal from 'sweetalert2'
         let header = {headers:{"token" : this.$store.state.token}};
         const me = this;
 
-        if(this.editedItem.tipoDocumento.trim()==='' || this.editedItem.numDocumento.trim()==='' || this.editedItem.nombre.trim()==='' ){
+        if(this.editedItem.tipoDocumento.trim()==='' || this.editedItem._id.trim()==='' || this.editedItem.nombre.trim()==='' ){
           this.msjcompra('(*) Son campos obligatorios');
-        }else if(this.editedItem.tipoDocumento.length>3 || this.editedItem.numDocumento.length>30 || this.editedItem.nombre.length>70 ||
+        }else if(this.editedItem.tipoDocumento.length>70 || this.editedItem._id.length>30 || this.editedItem.nombre.length>70 ||
                 this.editedItem.direccion.length>70 || this.editedItem.ciudad.length>70 || this.editedItem.telefono.length>70 || 
                 this.editedItem.email.length>70 ){
           this.msjcompra('Supero el número de carácteres permintidos en un campo');
 
-        }else if(this.editedItem.tipoDocumento.trim().toLowerCase()!='cc' && this.editedItem.tipoDocumento.trim().toLowerCase()!='nit'){
-          this.msjcompra('Tipo de documento invalido: cc o nit');
         }else{
-
           axios.post('persona',{
             tipoPersona:'proveedor',  
             tipoDocumento:this.editedItem.tipoDocumento,
-            numDocumento:this.editedItem.numDocumento,
+            _id:this.editedItem._id,
             nombre:this.editedItem.nombre,
             direccion:this.editedItem.direccion,
             ciudad:this.editedItem.ciudad,
@@ -279,8 +268,9 @@ import Swal from 'sweetalert2'
             header)
               .then((response)=>{
                 console.log(response);
-                me.obtenerPersonas(),
                 this.dialog=false
+                this.msgError = response.data.msg;
+                me.msjAlertaBien(this.msgError);
               })
               .catch((error)=>{
                 console.log(error.response);
@@ -294,59 +284,40 @@ import Swal from 'sweetalert2'
                   this.msgError =error.response.data.msg;
                   this.msjcompra(this.msgError);
                 }
-              })
+              })         
         }
+        
       },//guardar
 
-      activarDesactivarItem (accion , item) {
-        let id = item._id;
-        console.log(accion);
-        if(accion == 2){
-          console.log(id);
-          let me = this
-          let header = {headers:{"token" : this.$store.state.token}};
-          axios.put(`persona/desactivar/${id}`,{}, header)
-          .then((response)=>{
-            console.log(response);
-            me.obtenerPersonas();
-          })
-          .catch((error)=>{
-            console.log(error);
-            if(!error.response.data.msg){
-              console.log(error.response);
-              this.msgError = error.response.data.errors[0].msg;
-              this.msjcompra(this.msgError);
-            }else{
-              this.msgError = error.response.data.msg;
-              console.log(error.response.data.msg);
-              this.msgError =error.response.data.msg;
-              this.msjcompra(this.msgError);
-            }
-          });
-        }else if (accion==1){
-          console.log(id);
-          let me = this
-          let header = {headers:{"token" : this.$store.state.token}};
-          axios.put(`persona/activar/${id}`,  {},header)
-          .then((response)=>{
-            console.log(response);
-            me.obtenerPersonas();
-          })
-          .catch((error)=>{
-            console.log(error);
-            if(!error.response.data.msg){
-              console.log(error.response);
-              this.msgError = error.response.data.errors[0].msg;
-              this.msjcompra(this.msgError);
-            }else{
-              this.msgError = error.response.data.msg;
-              console.log(error.response.data.msg);
-              this.msgError =error.response.data.msg;
-              this.msjcompra(this.msgError);
-            }
-          });
-        }
-      },//activarDesactivarItem
+      eliminar(item){
+        let id = item._id
+        console.log(id);
+        let header = {headers:{"token" : this.$store.state.token}};
+
+        axios.delete(`persona/${id}`, header)
+            .then((response)=>{
+              console.log(response);
+              this.msgError=response.data.msg;
+              this.msjAlertaBien(this.msgError);
+              this.personas=[];
+            })
+            .catch((error)=>{
+              console.log(error);
+              if(!error.response.data.msg){
+                console.log(error.response);
+                this.msgError = error.response.data.errors[0].msg;
+                this.msjcompra(this.msgError);
+              }else{
+                this.msgError = error.response.data.msg;
+                console.log(error.response.data.msg);
+                this.msgError =error.response.data.msg;
+                this.msjcompra(this.msgError);
+              }
+            });
+          
+
+
+      },//eliminar
 
       actualizarTipodoc(tipoDocumento){
         console.log(tipoDocumento);
@@ -379,42 +350,10 @@ import Swal from 'sweetalert2'
                 this.msjcompra(this.msgError);
               }
             });
-        }
+          }
+        
       },//actualizarTipodoc
-      
-      actualizarNumdoc(numDocumento){
-        console.log(numDocumento);
-        console.log(this.id);
-        let id=this.id;
-        let me = this
-        let header = {headers:{"token" : this.$store.state.token}};
-        if(numDocumento.trim()==''){
-          this.msjcompra('Numero de documento obligatorio');
-        }else if(numDocumento.trim().length>30){
-          this.msjcompra('Numero de documento demasiado largo');
-        }else{
-          axios.put(`persona/actualizarNumDoc/${id}`,{numDocumento}, header)
-            .then((response)=>{
-              console.log(response);
-              this.msgError=response.data.msg;
-              this.msjAlertaBien(this.msgError);
-              me.obtenerPersonas();
-            })
-            .catch((error)=>{
-              console.log(error);
-              if(!error.response.data.msg){
-                console.log(error.response);
-                this.msgError = error.response.data.errors[0].msg;
-                this.msjcompra(this.msgError);
-              }else{
-                this.msgError = error.response.data.msg;
-                console.log(error.response.data.msg);
-                this.msgError =error.response.data.msg;
-                this.msjcompra(this.msgError);
-              }
-            });
-        }
-      },//actualizarNumodoc
+  
 
       actualizarNombre(nombre){
         console.log(nombre);
@@ -448,6 +387,7 @@ import Swal from 'sweetalert2'
               }
             });
         }
+        
       },//actualizarNombre
       
       actualizarDireccion(direccion){
@@ -482,6 +422,7 @@ import Swal from 'sweetalert2'
               }
             });
         }
+        
       },//actualizarDireccion
 
       actualizarCiudad(ciudad){
@@ -516,6 +457,7 @@ import Swal from 'sweetalert2'
               }
             });
         }
+        
       },//actualizarCiudad
 
       actualizarTelefono(telefono){

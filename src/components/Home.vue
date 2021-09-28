@@ -1,5 +1,6 @@
 <template>
-  <div v-if="this.$store.state.token != ''" >
+  <!--<div v-if="this.$store.state.token != ''" >-->
+  <div>
     <v-app>
         <v-row>
             <template v-if="this.$store.state.rol =='administrador' || this.$store.state.rol =='vendedor'">
@@ -12,16 +13,16 @@
 
             <template v-if="this.$store.state.rol =='administrador' || this.$store.state.rol =='vendedor'">
                 <v-col >
-                    <v-btn class="botonesArriba"  icon color="#72128E" :to="{path:'/abonos'}">
-                        <p> <v-icon size="90"> mdi-cash</v-icon> <br><br><br>-Abonos</p>           
+                    <v-btn class="botonesArriba"  icon color="#72128E" :to="{path:'/separadas'}">
+                        <p> <v-icon size="90"> mdi-cash</v-icon> <br><br><br>prendas separadas</p>           
                     </v-btn>
                 </v-col >
             </template>
 
             <template v-if="this.$store.state.rol =='administrador'">
                 <v-col >
-                    <v-btn class="botonesArriba"  icon color="#72128E" :to="{path:'/entradas'}">
-                        <p> <v-icon size="90">mdi-dolly</v-icon> <br><br><br>-Entradas</p>           
+                    <v-btn class="botonesArriba"  icon color="#72128E" :to="{path:'/salidas'}">
+                        <p> <v-icon size="90">mdi-dolly</v-icon> <br><br><br>- salidas y entradas</p>           
                     </v-btn>
                 </v-col >
             </template>
@@ -46,7 +47,7 @@
 
             <template v-if="this.$store.state.rol =='administrador'">
                 <v-col >
-                    <v-btn class="botones" style=" margin-top:-30px" icon color="#72128E" :to="{path:'/marcas'}">
+                    <v-btn class="botones" icon color="#72128E" :to="{path:'/marcas'}">
                         <p><v-icon size="90">mdi-label-outline</v-icon><br><br><br>Marcas</p>           
                     </v-btn>
                 </v-col >
@@ -79,14 +80,14 @@
             <template v-if="this.$store.state.rol =='administrador'">
                 <v-col >
                     <v-btn class="botones"  icon color="#72128E" :to="{path:'/ventas'}">
-                        <p>    <v-icon size="90">mdi-archive-outline</v-icon> <br><br><br>-Ventas</p>           
+                        <p>    <v-icon size="90">mdi-archive-outline</v-icon> <br><br><br>- info Ventas</p>           
                     </v-btn>
                 </v-col >
             </template >
             <template v-if="this.$store.state.rol =='administrador'">
                 <v-col >
                     <v-btn class="botones"  icon color="#72128E" :to="{path:'/compras'}">
-                        <p>  <v-icon size="90">mdi-cart-outline</v-icon><br><br><br>-Compras</p>           
+                        <p>  <v-icon size="90">mdi-cart-outline</v-icon><br><br><br>-info Compras</p>           
                     </v-btn>
                 </v-col >
             </template >
@@ -106,12 +107,12 @@
     .botonesArriba{
         width:160px;
         height:160px;
-        margin-top:20px
+        margin-top:30px
     }
     .botones{
         width:160px;
         height:160px;
-        margin-top:-30px;
+        margin-top:30px;
 
     }
     .botonesArriba:hover{

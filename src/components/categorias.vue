@@ -4,10 +4,12 @@
     <v-container fluid>
 
       <template>
-        <v-row style="margin-left:10px">
-          <v-text-field  v-model="buscarCategoriaLetras" label="Traer categorias por nombre. (Ejemplo:categoria1)"   v-on:keyup.enter="obtenerCategorias()"></v-text-field>
-          <v-btn style="margin-right:10px; margin-left:50px;  margin-top:10px"   icon color="#72128E"  @click="obtenerCategorias()"><v-icon size="40">mdi-card-search-outline</v-icon> </v-btn>
-        </v-row>
+        <v-card style="margin-top:20px;box-shadow: 0 0 20px #A068B8; border-radius: 40px">
+          <v-row style="margin-left:10px">
+            <v-text-field  v-model="buscarCategoriaLetras" label="Traer categorias por nombre. (Ejemplo:categoria1)"   v-on:keyup.enter="obtenerCategorias()"></v-text-field>
+            <v-btn style="margin-right:30px; margin-left:30px;  margin-top:20px"   icon color="#72128E"  @click="obtenerCategorias()"><v-icon size="40">mdi-card-search-outline</v-icon> </v-btn>
+          </v-row>
+        </v-card>
       </template>
 
       
@@ -128,6 +130,9 @@ import Swal from 'sweetalert2'
           .then(response =>{
             console.log(response);
             this.categorias = response.data.categoria
+            if(this.categorias.length==0){
+              this.msjAlertaBien('No hay categorias');
+            }
           })
           .catch((error) =>{
             console.log(error);
@@ -174,7 +179,6 @@ import Swal from 'sweetalert2'
                 console.log(response);
                 this.msgError=response.data.msg;
                 this.msjAlertaBien(this.msgError);
-                me.obtenerCategorias(),
                 me.reset();
                 this.dialog=false;
               })

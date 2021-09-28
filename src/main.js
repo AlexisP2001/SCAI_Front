@@ -15,6 +15,7 @@ Vue.config.productionTip = false
 
 
 axios.defaults.baseURL="https://scai-alma-rop.herokuapp.com/api"
+//axios.defaults.baseURL="http://localhost:8080/api"
 
 const router = new VueRouter({
   // en este bloque escribimos las rutas
